@@ -158,7 +158,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-1">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button id="get-lyrics" class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-1" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -170,7 +170,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-2">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-2" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -181,7 +181,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-3">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-3" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -192,7 +192,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-4">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-4" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -203,7 +203,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-5">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-5" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -214,7 +214,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-6">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-6" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -225,7 +225,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-7">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-7" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -236,7 +236,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-8">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-8" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -247,7 +247,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-9">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-9" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -258,7 +258,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-10">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics-10" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -277,52 +277,108 @@
     <!-- Custom Script Here -->
     <script>
         document.getElementById('result-area').style.display = "none";
-        //document.getElementById('lyrics-area').style.display = "none";
+        document.getElementById('lyrics-area').style.display = "none";
         
         document.getElementById('search-btn').addEventListener("click", function(){
+            document.getElementById('lyrics-area').style.display = "none";
             const text = document.getElementById('user-input-text').value;
             const newData = 'https://api.lyrics.ovh/suggest/'+text;
-            //console.log(newData);
+
             fetch(newData)
             .then(res => res.json())
             .then(data => {
-                const user = data.data[0];
+                
                 for(let i = 0; i < 10; i++){
-                    
-                    //console.log(user.title +" Album by "+ user.artist.name);
+                    const user = data.data[i];
                     let lyricsTitle = `lyrics-name-id-${i+1}`;
                     let artistName = `artist-name-area-${i+1}`;
 
                     document.getElementById(lyricsTitle).innerText = user.title;
                     document.getElementById(artistName).innerText = user.artist.name;
                     document.getElementById('result-area').style.display = "block";
-                    //let mes = `https://api.lyrics.ovh/v1/${user.artist.name}/${user.title}`;
-                    //console.log(mes);
                     
                 }
                 console.log(data);
-                document.getElementById('get-lyrics').addEventListener("click", function(){
+                document.getElementById('get-lyrics-1').addEventListener("click", function(){
                     const lyricsName = document.getElementById('lyrics-name-id-1').innerText;
                     const artistId = document.getElementById('artist-name-area-1').innerText;
+                    getLyrics(lyricsName, artistId);
                     
-                    fetch(`https://api.lyrics.ovh/v1/${artistId}/${lyricsName}`)
-                    .then(response => response.json())
-                    .then(lyricData => {
-                        if(true){
-                            console.log(lyricData);
-                            document.getElementById('lyric-display').innerText = lyricData.lyrics;
-                            document.getElementById('lyrics-title').innerText = lyricsName;
-                        }
-                        else{
-                            document.getElementById('lyric-display').innerText = "Lyrics not found";
-                            document.getElementById('lyrics-title').innerText = lyricsName;
-                        }
-                    })
                 })
+                document.getElementById('get-lyrics-2').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-2').innerText;
+                    const artistId = document.getElementById('artist-name-area-2').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-3').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-3').innerText;
+                    const artistId = document.getElementById('artist-name-area-3').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-4').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-4').innerText;
+                    const artistId = document.getElementById('artist-name-area-4').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-5').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-5').innerText;
+                    const artistId = document.getElementById('artist-name-area-5').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-6').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-6').innerText;
+                    const artistId = document.getElementById('artist-name-area-6').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-7').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-7').innerText;
+                    const artistId = document.getElementById('artist-name-area-7').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-8').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-8').innerText;
+                    const artistId = document.getElementById('artist-name-area-8').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-9').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-9').innerText;
+                    const artistId = document.getElementById('artist-name-area-9').innerText;
+                    getLyrics(lyricsName, artistId);
+                    
+                })
+                document.getElementById('get-lyrics-10').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-10').innerText;
+                    const artistId = document.getElementById('artist-name-area-10').innerText;
+                    getLyrics(lyricsName, artistId);
+
+                })
+
             })
         })
         
-        
+    function getLyrics(lyricsName, artistId){
+        fetch(`https://api.lyrics.ovh/v1/${artistId}/${lyricsName}`)
+        .then(response => response.json())
+        .then(lyricData => {
+            if(lyricData.lyrics){
+                console.log(lyricData);
+                document.getElementById('lyric-display').innerText = lyricData.lyrics;
+                document.getElementById('lyrics-title').innerText = lyricsName;
+            }
+            else{
+                document.getElementById('lyric-display').innerText = "Lyrics not found";
+                document.getElementById('lyrics-title').innerText = lyricsName;
+            }
+            document.getElementById('lyrics-area').style.display = "block";
+        })
+    }    
 
 
         
