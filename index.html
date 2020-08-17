@@ -52,8 +52,8 @@
             </div>
             <div id="lyrics-area" class="single-lyrics text-center">
                 <button class="btn go-back">&lsaquo;</button>
-                <h2 class="text-success mb-4">Pentatonix - Na Na Na</h2>
-                <pre class="lyric text-white">
+                <h2 id="lyrics-title" class="text-success mb-4">Pentatonix - Na Na Na</h2>
+                <pre id="lyric-display" class="lyric text-white">
     Wont go whistling like the wind blows,
     Looking out my window,
     Just to see the shine
@@ -158,7 +158,7 @@
                         <p class="author lead">Album by <span id="artist-name-area-1">Washed Out</span></p>
                     </div>
                     <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                        <button id="get-lyrics" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
                 <!-- ./ single result -->
@@ -277,30 +277,55 @@
     <!-- Custom Script Here -->
     <script>
         document.getElementById('result-area').style.display = "none";
-        document.getElementById('lyrics-area').style.display = "none";
+        //document.getElementById('lyrics-area').style.display = "none";
         
         document.getElementById('search-btn').addEventListener("click", function(){
             const text = document.getElementById('user-input-text').value;
             const newData = 'https://api.lyrics.ovh/suggest/'+text;
-            console.log(newData);
+            //console.log(newData);
             fetch(newData)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                const user = data.data[0];
                 for(let i = 0; i < 10; i++){
-                    const user = data.data[i];
+                    
                     //console.log(user.title +" Album by "+ user.artist.name);
                     let lyricsTitle = `lyrics-name-id-${i+1}`;
-                    let mes = `lyrics-name-id-${i+1}`;
-                    console.log(mes);
                     let artistName = `artist-name-area-${i+1}`;
+
                     document.getElementById(lyricsTitle).innerText = user.title;
                     document.getElementById(artistName).innerText = user.artist.name;
                     document.getElementById('result-area').style.display = "block";
-
+                    //let mes = `https://api.lyrics.ovh/v1/${user.artist.name}/${user.title}`;
+                    //console.log(mes);
+                    
                 }
+                console.log(data);
+                document.getElementById('get-lyrics').addEventListener("click", function(){
+                    const lyricsName = document.getElementById('lyrics-name-id-1').innerText;
+                    const artistId = document.getElementById('artist-name-area-1').innerText;
+                    
+                    fetch(`https://api.lyrics.ovh/v1/${artistId}/${lyricsName}`)
+                    .then(response => response.json())
+                    .then(lyricData => {
+                        if(true){
+                            console.log(lyricData);
+                            document.getElementById('lyric-display').innerText = lyricData.lyrics;
+                            document.getElementById('lyrics-title').innerText = lyricsName;
+                        }
+                        else{
+                            document.getElementById('lyric-display').innerText = "Lyrics not found";
+                            document.getElementById('lyrics-title').innerText = lyricsName;
+                        }
+                    })
+                })
             })
         })
+        
+        
+
+
+        
     </script>
 </body>
 
