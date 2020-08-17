@@ -50,17 +50,6 @@
                     <button id="search-btn" class="btn btn-success search-btn">Search</button>
                 </div>
             </div>
-            <!-- === Simple results === -->
-            <!-- <div class="d-flex justify-content-center">
-                <div class="">
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                </div>
-            </div> -->
-            <!-- Single Lyrics -->
             <div id="lyrics-area" class="single-lyrics text-center">
                 <button class="btn go-back">&lsaquo;</button>
                 <h2 class="text-success mb-4">Pentatonix - Na Na Na</h2>
@@ -298,15 +287,16 @@
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                for(let i = 0, j = 1; i < 10; i++){
+                for(let i = 0; i < 10; i++){
                     const user = data.data[i];
                     //console.log(user.title +" Album by "+ user.artist.name);
-                    let lyricsTitle = 'lyrics-name-id-'+j;
-                    let artistName = 'artist-name-area-'+j;
+                    let lyricsTitle = `lyrics-name-id-${i+1}`;
+                    let mes = `lyrics-name-id-${i+1}`;
+                    console.log(mes);
+                    let artistName = `artist-name-area-${i+1}`;
                     document.getElementById(lyricsTitle).innerText = user.title;
                     document.getElementById(artistName).innerText = user.artist.name;
                     document.getElementById('result-area').style.display = "block";
-                    j++;
 
                 }
             })
